@@ -33,24 +33,21 @@ const userModel = new Schema(
       },
     ],
   },
-)
 
+  {
+    toJSON: {
+      virtuals: true,
+    },
 
+    id: false,
+  }
+);
 
-// * `username`
-//   * String
-//   * Unique
-//   * Required
-//   * Trimmed
+userModel.virtual("friendCount")
+  .get(function() {
+    return this.friends.length;
+});
 
-// * `email`
-//   * String
-//   * Required
-//   * Unique
-//   * Must match a valid email address (look into Mongoose's matching validation)
+const User = model('User', userModel);
 
-// * `thoughts`
-//   * Array of `_id` values referencing the `Thought` model
-
-// * `friends`
-//   * Array of `_id` values referencing the `User` model (self-reference)
+module.exports = User;
