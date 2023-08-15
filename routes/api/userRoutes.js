@@ -1,13 +1,6 @@
 const router = require('express').Router();
 
-const {
-    getUsers,
-    getSingleUser,
-    newUser,
-    updateUser,
-    removeUser,
-    addFriend,
-    removeFriend
+const { getUsers, getSingleUser, newUser, updateUser, removeUser, addFriend, removeFriend
 } = require('../../controllers/userController');
 
 router.route('/').get(getUsers).post(newUser);
