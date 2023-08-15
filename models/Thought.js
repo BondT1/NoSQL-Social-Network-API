@@ -67,3 +67,12 @@ const thoughtModel = new Schema (
       id: false,
   }
 )
+
+thoughtModel.virtual('reactionCount')
+.get(function() {
+  return this.reactions.length;
+})
+
+const Thought = model('Thought', thoughtModel);
+
+module.exports = Thought;
