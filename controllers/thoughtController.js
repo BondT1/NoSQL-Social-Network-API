@@ -49,7 +49,25 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  
+  removeThought(req, res) {
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: "Thought ID invalid" })
+          : User.findOneAndUpdate(
+              { thoughts: req.params.thoughtId },
+              { $pull: { thoughts: req.params.thoughtId } },
+              { new: true }
+            )
+      )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'Thought deleted, however invalid user ID'})
+          : res.json({ message: 'Thought deleted' })
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
 
 
 
