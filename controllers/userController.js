@@ -18,7 +18,10 @@ module.exports = {
           ? res.status(404).json({ message: "User ID invalid" })
           : res.json(user)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
   },
 
   newUser(req, res) {
