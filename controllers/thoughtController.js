@@ -68,6 +68,34 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
+  newReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: "Thought ID invalid" })
+          : res.json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
+  removeReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: "Thought ID invalid" })
+          : res.json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
 
 
 
